@@ -16,7 +16,7 @@ use Goetas\XML\XSDReader\Schema\Attribute\Group as AttributeGroup;
 
 class Xmltools {
 
-  function getXmlArrays($tables) {
+  public function getXmlArrays($tables) {
     $arrays = [];
     foreach ($tables as $table) {
       foreach($table['relationships'] as $rel) {
@@ -26,7 +26,7 @@ class Xmltools {
     }
     return $arrays;
   }
-  function getXsdDetails($file) {
+  public function getXsdDetails($file) {
     $tables = [];
     $reader = new SchemaReader();
     $schema = $reader->readFile($file);
@@ -45,7 +45,7 @@ class Xmltools {
   function getFieldNames($type, $parentName = '') {
     $elements = $type->getElements();
   }
-  function getAllElements($type) {
+  private function getAllElements($type) {
     if ($type instanceof ComplexType) {
       $elements = $type->getElements();
       $extension = $type->getExtension();
@@ -60,7 +60,7 @@ class Xmltools {
     }
     return $elements;
   }
-  function getAllAttributes($type) {
+  private function getAllAttributes($type) {
     if ($type instanceof BaseComplexType) {
       $attributes = $type->getAttributes();
       $extension = $type->getExtension();
@@ -75,7 +75,7 @@ class Xmltools {
     }
     return $attributes;
   }
-  function getTypeName($type) {
+  private function getTypeName($type) {
     $typeName = $type->getName();
     if (!$typeName) {
       $typeName = 'Anonymous';
@@ -96,7 +96,7 @@ class Xmltools {
     }
     return $typeName;
   }
-  function traverseType(&$tables, $type, $topParentName = '', $parentName = '') {
+  private function traverseType(&$tables, $type, $topParentName = '', $parentName = '') {
     $childArrays = [];
     $nonArrayItems = [];
 
@@ -178,7 +178,7 @@ class Xmltools {
       }
     }
   }
-  function visitElement(&$tables, $element, $topParentName, $parentName, &$childArrays, &$nonArrayItems) {
+  private function visitElement(&$tables, $element, $topParentName, $parentName, &$childArrays, &$nonArrayItems) {
     if ($element instanceof ElementRef) {
       $elementDef = $element->getReferencedElement();
       $elemName = $elementDef->getName();
@@ -200,7 +200,7 @@ class Xmltools {
     }
     Xmltools::printField($tables, $element, $topParentName, $parentName, !$isArray);
   }
-  function printField(&$tables, $element, $topParentName = '', $parentName = '', $recursive = true) {
+  private function printField(&$tables, $element, $topParentName = '', $parentName = '', $recursive = true) {
     $elemName = $element->getName();
     $elemType = $element->getType();
     $max = $element->getMax();
@@ -226,7 +226,7 @@ class Xmltools {
       ];
     }
   }
-  function visitAttribute(&$tables, $attribute, $topParentName, $parentName, &$childArrays, &$nonArrayItems) {
+  private function visitAttribute(&$tables, $attribute, $topParentName, $parentName, &$childArrays, &$nonArrayItems) {
     if ($attribute instanceof AttributeRef) {
       $attributeDef = $attribute->getReferencedElement();
       $attrName = $attributeDef->getName();
@@ -250,13 +250,13 @@ class Xmltools {
       'sourceNodeType' => 'attribute'
     ];
   }
-  function outputTables($tables, $dir) {
+  private function outputTables($tables, $dir) {
     foreach ($tables as $name=>$table) {
       $filename = $dir . getSanitizedName($name) . '.csv';
       outputTable($name, $table, $filename);
     }
   }
-  function outputTable($name, $table, $file) {
+  private function outputTable($name, $table, $file) {
     $tableName = getSanitizedName($name);
     $tableCsv = "$tableName";
     if (isset($table['relationships']) && count($table['relationships'])) {
@@ -275,7 +275,7 @@ class Xmltools {
     }
     file_put_contents($file, $tableCsv);
   }
-  function getSanitizedName($name) {
+  private function getSanitizedName($name) {
     $name = str_replace("//", "", $name);
     $name = str_replace("/", ".", $name);
     $name = str_replace([
@@ -291,7 +291,7 @@ class Xmltools {
     return $name;
   }
 
-function xmlToArray($xml, $path, $options = array()) {
+public function xmlToArray($xml, $path, $options = array()) {
     $defaults = array(
         'namespaceRecursive' => true, //set to true to get namespaces recursively, false if only namespaces in root
         'namespaceSeparator' => ':',//you may want this to be something other than a colon
