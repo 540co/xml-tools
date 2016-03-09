@@ -10,7 +10,7 @@
     "require": {
         "goetas/xsd2php": "^1.0",
         "goetas/xsd-reader": "^1.0"
-    }
+    },
     "autoload": {
         "psr-4": {
             "FiveFortyCo\\": "src/"
