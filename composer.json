@@ -1,0 +1,14 @@
+{
+    "name": "540co/xml-tools",
+    "description": "Tools to help with processing/analyzing XML and XSD documents",
+    "authors": [
+        {
+            "name": "Jon Minter",
+            "email": "jon@540.co"
+        }
+    ],
+    "require": {
+        "goetas/xsd2php": "^1.0",
+        "goetas/xsd-reader": "^1.0"
+    }
+}
