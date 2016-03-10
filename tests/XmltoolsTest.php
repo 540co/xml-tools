@@ -137,6 +137,17 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       $this->assertEquals(count($xsdDetails['//PurchaseOrder']['relationships']), 0);
     }
 
+    public function testMultipleRootElements() {
+      $filename = dirname(__FILE__) . '/data/element-ref.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      //Should have book element
+      $this->assertArrayHasKey('//book', $xsdDetails);
+
+      //Should also have bookReview element
+      $this->assertArrayHasKey('//bookReview', $xsdDetails);
+    }
+
     public function testElementGroup() {
       $filename = dirname(__FILE__) . '/data/element-group.xsd';
       $xsdDetails = Xmltools::getXsdDetails($filename);
@@ -191,5 +202,102 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($xsdDetails['//Date']['columns'][$index]['annotation'], '');
       $this->assertEquals($xsdDetails['//Date']['columns'][$index]['schemaType'], 'integer');
       $this->assertEquals($xsdDetails['//Date']['columns'][$index]['sourceNodeType'], 'attribute');
+    }
+
+    public function testElementRef() {
+      $filename = dirname(__FILE__) . '/data/element-ref.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      //Should have book element
+      $this->assertArrayHasKey('//book', $xsdDetails);
+      $index = 0;
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['name'], 'title');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['name'], 'publishYear');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['schemaType'], 'integer');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['name'], 'author');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//book']['columns'][$index]['sourceNodeType'], 'tag');
+
+      //Should also have bookReview element with book sub element which is ref to root book element
+      $this->assertArrayHasKey('//bookReview', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['name'], 'book/title');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['name'], 'book/publishYear');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['schemaType'], 'integer');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['name'], 'book/author');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['sourceNodeType'], 'tag');
+    }
+
+    public function testArrayElementRef() {
+      $filename = dirname(__FILE__) . '/data/element-array-ref.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      $this->assertArrayHasKey('//peopleList', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//peopleList']['relationships'][$index]['element'], 'person');
+      $this->assertEquals($xsdDetails['//peopleList']['relationships'][$index]['type'], 'hasMany');
+      $this->assertEquals($xsdDetails['//peopleList']['relationships'][$index]['table'], '//peopleList/person');
+
+      $this->assertArrayHasKey('//peopleList/person', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//peopleList/person']['columns'][$index]['name'], 'name');
+      $this->assertEquals($xsdDetails['//peopleList/person']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//peopleList/person']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//peopleList/person']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//peopleList/person']['columns'][$index]['name'], 'age');
+      $this->assertEquals($xsdDetails['//peopleList/person']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//peopleList/person']['columns'][$index]['schemaType'], 'integer');
+      $this->assertEquals($xsdDetails['//peopleList/person']['columns'][$index]['sourceNodeType'], 'tag');
+    }
+
+    public function testAttributeRef() {
+      $filename = dirname(__FILE__) . '/data/attribute-ref.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      $this->assertArrayHasKey('//someElement', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//someElement']['columns'][$index]['name'], '@code');
+      $this->assertEquals($xsdDetails['//someElement']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//someElement']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//someElement']['columns'][$index]['sourceNodeType'], 'attribute');
+    }
+
+    public function testComplexTypeExtension() {
+
+    }
+
+    public function testSimpleContentRestriction() {
+
+    }
+
+    public function testComplexTypeSimpleContentRestriction() {
+
     }
 }

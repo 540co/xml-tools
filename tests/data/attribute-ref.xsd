@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="someElement" type="someComplexType">
+
+  <xs:attribute name="code" type="xs:string"/>
+
+  <xs:complexType name="someComplexType">
+    <xs:attribute ref="code"/>
+  </xs:complexType>
+</xs:schema>

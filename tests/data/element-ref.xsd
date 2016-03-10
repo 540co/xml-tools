@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="book" type="bookType"/>
+  <xs:element name="bookReview">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="book"/>
+        <xs:element name="rating" type="xs:integer"/>
+        <xs:element name="review" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="bookType">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="publishYear" type="xs:integer"/>
+      <xs:element name="author" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
