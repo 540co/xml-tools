@@ -47,9 +47,6 @@ class Xmltools {
     ];
     self::traverseType($tables, $rootType, "//".$rootElement->getName(), "//".$rootElement->getName());
   }
-  private function getFieldNames($type, $parentName = '') {
-    $elements = $type->getElements();
-  }
   private function getAllElements($type) {
     if ($type instanceof ComplexType) {
       $elements = $type->getElements();
@@ -254,46 +251,6 @@ class Xmltools {
       'schemaType' => $attrTypeName,
       'sourceNodeType' => 'attribute'
     ];
-  }
-  private function outputTables($tables, $dir) {
-    foreach ($tables as $name=>$table) {
-      $filename = $dir . getSanitizedName($name) . '.csv';
-      outputTable($name, $table, $filename);
-    }
-  }
-  private function outputTable($name, $table, $file) {
-    $tableName = getSanitizedName($name);
-    $tableCsv = "$tableName";
-    if (isset($table['relationships']) && count($table['relationships'])) {
-      $tableCsv .= "\n\nRelationship Tables";
-      foreach ($table['relationships'] as $rel) {
-        $tableName = getSanitizedName($rel['table']);
-        $tableCsv .= "\n$tableName";
-      }
-    }
-    if (isset($table['columns']) && count($table['columns'])) {
-      $tableCsv .= "\n\nColumn,Type";
-      foreach ($table['columns'] as $column) {
-        $colName = getSanitizedName($column['name']);
-        $tableCsv .= "\n{$colName},{$column['schemaType']}";
-      }
-    }
-    file_put_contents($file, $tableCsv);
-  }
-  private function getSanitizedName($name) {
-    $name = str_replace("//", "", $name);
-    $name = str_replace("/", ".", $name);
-    $name = str_replace([
-      'ProcurementDocument',
-      'AwardInstrument',
-      'AwardModificationInstrument'
-    ],
-    [
-      'PD',
-      'AIns',
-      'AMIns'
-    ], $name);
-    return $name;
   }
 
 public function xmlToArray($xml, $path, $options = array()) {

@@ -3,6 +3,29 @@ use FiveFortyCo\Xmltools;
 
 class XmltoolsTest extends PHPUnit_Framework_TestCase
 {
+    public function testXmlArrays() {
+      $input = [
+        '//orders' => [
+          'name' => '//orders',
+          'relationships' => [
+            [
+              'element' => 'productsOrdered'
+            ],
+            [
+              'element' => 'customerAddresses'
+            ]
+          ]
+        ]
+      ];
+
+      $output = Xmltools::getXmlArrays($input);
+
+      $this->assertEquals($output, [
+        '//orders/productsOrdered',
+        '//orders/customerAddresses'
+      ]);
+    }
+
     /**
      * Test to verify the basics of getXsdDetails are working
      */
