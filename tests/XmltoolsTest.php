@@ -290,14 +290,51 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
     }
 
     public function testComplexTypeExtension() {
+      $filename = dirname(__FILE__) . '/data/complex-type-extension.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
 
+      $this->assertArrayHasKey('//car', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['name'], 'numberOfDoors');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['schemaType'], 'integer');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['name'], 'manufacturer');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['name'], 'model');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['name'], 'year');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['schemaType'], 'integer');
+      $this->assertEquals($xsdDetails['//car']['columns'][$index]['sourceNodeType'], 'tag');
     }
 
-    public function testSimpleContentRestriction() {
+    public function testSimpleContentExtension() {
+      $this->markTestIncomplete(
+         'This test has not been implemented yet.'
+       );
+    }
 
+    public function testComplexTypeSimpleContentExtension() {
+      $this->markTestIncomplete(
+         'This test has not been implemented yet.'
+       );
     }
 
     public function testComplexTypeSimpleContentRestriction() {
-
+      $this->markTestIncomplete(
+         'This test has not been implemented yet.'
+       );
     }
 }

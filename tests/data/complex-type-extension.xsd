@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="car" type="CarType"/>
+
+  <xs:complexType name="AutoType">
+    <xs:sequence>
+      <xs:element name="manufacturer" type="xs:string"/>
+      <xs:element name="model" type="xs:string"/>
+      <xs:element name="year" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CarType">
+    <xs:extension base="AutoType"/>
+    <xs:sequence>
+      <xs:element name="numberOfDoors" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
