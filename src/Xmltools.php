@@ -30,7 +30,14 @@ class Xmltools {
     $tables = [];
     $reader = new SchemaReader();
     $schema = $reader->readFile($file);
-    $rootElement = array_values($schema->getElements())[0];
+    $rootElements = $schema->getElements();
+    foreach ($rootElements as $rootElement) {
+      self::visitRootElement($tables, $rootElement);
+    }
+    return $tables;
+    // outputTables($tables, dirname(__FILE__) . '/tables_csvs/');
+  }
+  private function visitRootElement(&$tables, $rootElement) {
     $rootType = $rootElement->getType();
     $tables["//".$rootElement->getName()] = [
       'name' => "//".$rootElement->getName(),
@@ -39,10 +46,8 @@ class Xmltools {
       'schemaType' => ''
     ];
     self::traverseType($tables, $rootType, "//".$rootElement->getName(), "//".$rootElement->getName());
-    return $tables;
-    // outputTables($tables, dirname(__FILE__) . '/tables_csvs/');
   }
-  function getFieldNames($type, $parentName = '') {
+  private function getFieldNames($type, $parentName = '') {
     $elements = $type->getElements();
   }
   private function getAllElements($type) {
@@ -228,7 +233,7 @@ class Xmltools {
   }
   private function visitAttribute(&$tables, $attribute, $topParentName, $parentName, &$childArrays, &$nonArrayItems) {
     if ($attribute instanceof AttributeRef) {
-      $attributeDef = $attribute->getReferencedElement();
+      $attributeDef = $attribute->getReferencedAttribute();
       $attrName = $attributeDef->getName();
       $attrType = $attributeDef->getType();
     } else {

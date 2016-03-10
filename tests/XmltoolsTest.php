@@ -231,7 +231,7 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       //Should also have bookReview element with book sub element which is ref to root book element
       $this->assertArrayHasKey('//bookReview', $xsdDetails);
 
-      $index = 0;
+      $index = 2;
       $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['name'], 'book/title');
       $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['annotation'], '');
       $this->assertEquals($xsdDetails['//bookReview']['columns'][$index]['schemaType'], 'string');
