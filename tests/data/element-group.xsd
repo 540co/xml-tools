@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:group name="PersonNameGroup">
+  <xs:sequence>
+    <xs:element name="first" type="xs:string"/>
+    <xs:element name="middle" type="xs:string"/>
+    <xs:element name="last" type="xs:string"/>
+  </xs:sequence>
+</xs:group>
+
+<xs:element name="Person" type="PersonType"/>
+
+<xs:complexType name="PersonType">
+  <xs:sequence>
+    <xs:group ref="PersonNameGroup"/>
+  </xs:sequence>
+  <xs:attribute name="age" type="xs:integer"/>
+</xs:complexType>
+
+</xs:schema>

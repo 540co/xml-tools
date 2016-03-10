@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:attributeGroup name="DateAttrGroup">
+  <xs:attribute name="month" type="xs:string"/>
+  <xs:attribute name="day" type="xs:integer"/>
+  <xs:attribute name="year" type="xs:integer"/>
+</xs:attributeGroup>
+
+<xs:element name="Date">
+  <xs:complexType>
+    <xs:attributeGroup ref="DateAttrGroup"/>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

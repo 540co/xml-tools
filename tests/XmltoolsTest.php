@@ -136,4 +136,60 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       $this->assertTrue(is_array($xsdDetails['//PurchaseOrder']['relationships']));
       $this->assertEquals(count($xsdDetails['//PurchaseOrder']['relationships']), 0);
     }
+
+    public function testElementGroup() {
+      $filename = dirname(__FILE__) . '/data/element-group.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      $this->assertArrayHasKey('//Person', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['name'], 'first');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['name'], 'middle');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['name'], 'last');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['name'], '@age');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['schemaType'], 'integer');
+      $this->assertEquals($xsdDetails['//Person']['columns'][$index]['sourceNodeType'], 'attribute');
+    }
+
+    public function testAttributeGroup() {
+      $filename = dirname(__FILE__) . '/data/attribute-group.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      $this->assertArrayHasKey('//Date', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['name'], '@month');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['sourceNodeType'], 'attribute');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['name'], '@day');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['schemaType'], 'integer');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['sourceNodeType'], 'attribute');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['name'], '@year');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['schemaType'], 'integer');
+      $this->assertEquals($xsdDetails['//Date']['columns'][$index]['sourceNodeType'], 'attribute');
+    }
 }

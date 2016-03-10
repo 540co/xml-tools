@@ -38,7 +38,7 @@ class Xmltools {
       'relationships' => [],
       'schemaType' => ''
     ];
-    Xmltools::traverseType($tables, $rootType, "//".$rootElement->getName(), "//".$rootElement->getName());
+    self::traverseType($tables, $rootType, "//".$rootElement->getName(), "//".$rootElement->getName());
     return $tables;
     // outputTables($tables, dirname(__FILE__) . '/tables_csvs/');
   }
@@ -52,7 +52,7 @@ class Xmltools {
       if ($extension) {
         $baseType = $extension->getBase();
         if ($baseType) {
-          $elements = array_merge($elements, Xmltools::getAllElements($baseType));
+          $elements = array_merge($elements, self::getAllElements($baseType));
         }
       }
     } else {
@@ -67,7 +67,7 @@ class Xmltools {
       if ($extension) {
         $baseType = $extension->getBase();
         if ($baseType) {
-          $attributes = array_merge($attributes, Xmltools::getAllAttributes($baseType));
+          $attributes = array_merge($attributes, self::getAllAttributes($baseType));
         }
       }
     } else {
@@ -91,7 +91,7 @@ class Xmltools {
     if ($extension) {
       $baseType = $extension->getBase();
       if ($baseType) {
-        $typeName .= ' extends ' . Xmltools::getTypeName($baseType);
+        $typeName .= ' extends ' . self::getTypeName($baseType);
       }
     }
     return $typeName;
@@ -100,37 +100,37 @@ class Xmltools {
     $childArrays = [];
     $nonArrayItems = [];
 
-    $elements = Xmltools::getAllElements($type);
+    $elements = self::getAllElements($type);
     foreach ($elements as $element) {
       if ($element instanceof Group) {
         $groupElements = $element->getElements();
         foreach ($groupElements as $groupElem) {
-          Xmltools::visitElement($tables, $groupElem, $topParentName, $parentName, $childArrays, $nonArrayItems);
+          self::visitElement($tables, $groupElem, $topParentName, $parentName, $childArrays, $nonArrayItems);
         }
       } else {
-        Xmltools::visitElement($tables, $element, $topParentName, $parentName, $childArrays, $nonArrayItems);
+        self::visitElement($tables, $element, $topParentName, $parentName, $childArrays, $nonArrayItems);
       }
     }
 
-    $attributes = Xmltools::getAllAttributes($type);
+    $attributes = self::getAllAttributes($type);
     foreach ($attributes as $attribute) {
       if ($attribute instanceof AttributeGroup) {
         $groupAttributes = $attribute->getAttributes();
         foreach ($groupAttributes as $groupAttr) {
-          Xmltools::visitAttribute($tables, $groupAttr, $topParentName, $parentName, $childArrays, $nonArrayItems);
+          self::visitAttribute($tables, $groupAttr, $topParentName, $parentName, $childArrays, $nonArrayItems);
         }
       } else {
-        Xmltools::visitAttribute($tables, $attribute, $topParentName, $parentName, $childArrays, $nonArrayItems);
+        self::visitAttribute($tables, $attribute, $topParentName, $parentName, $childArrays, $nonArrayItems);
       }
     }
 
 
-    $typeName = Xmltools::getTypeName($type);
+    $typeName = self::getTypeName($type);
     foreach ($nonArrayItems as $childElem) {
       $elemName = $childElem->getName();
       $elemType = $childElem->getType();
       if ($elemType instanceof ComplexType) {
-        Xmltools::traverseType($tables, $elemType, $topParentName, $parentName . '/' . $elemName);
+        self::traverseType($tables, $elemType, $topParentName, $parentName . '/' . $elemName);
       }
     }
     foreach ($childArrays as $childArray) {
@@ -146,7 +146,7 @@ class Xmltools {
         $elemType = $element->getType();
       }
 
-      $elemTypeName = Xmltools::getTypeName($elemType);
+      $elemTypeName = self::getTypeName($elemType);
 
       if ($parentName) {
         $printableParent = substr($parentName, strlen($topParentName) + 1);
@@ -174,7 +174,7 @@ class Xmltools {
       }
 
       if ($elemType instanceof BaseComplexType) {
-        Xmltools::traverseType($tables, $elemType, $parentName . '/' . $elemName, $parentName . '/' . $elemName);
+        self::traverseType($tables, $elemType, $parentName . '/' . $elemName, $parentName . '/' . $elemName);
       }
     }
   }
@@ -198,7 +198,7 @@ class Xmltools {
     } else {
       $nonArrayItems[] = $element;
     }
-    Xmltools::printField($tables, $element, $topParentName, $parentName, !$isArray);
+    self::printField($tables, $element, $topParentName, $parentName, !$isArray);
   }
   private function printField(&$tables, $element, $topParentName = '', $parentName = '', $recursive = true) {
     $elemName = $element->getName();
@@ -217,7 +217,7 @@ class Xmltools {
       $arrayStr = "(Array of $max)";
     }
     if (!$isArray && !($elemType instanceof ComplexType)) {
-      $elemTypeName = Xmltools::getTypeName($elemType);
+      $elemTypeName = self::getTypeName($elemType);
       $tables[$topParentName]['columns'][] = [
         'name' => $name,
         'annotation' => $element->getDoc(),
@@ -242,7 +242,7 @@ class Xmltools {
     }
     $name = ($printableParent ? $printableParent . "/" : "") . '@' . $attrName;
 
-    $attrTypeName = Xmltools::getTypeName($attrType);
+    $attrTypeName = self::getTypeName($attrType);
     $tables[$topParentName]['columns'][] = [
       'name' => $name,
       'annotation' => $attribute->getDoc(),
@@ -336,7 +336,7 @@ public function xmlToArray($xml, $path, $options = array()) {
             //recurse into child nodes
 
             //list($childTagName, $childProperties) = each($childArray);
-            $childArray = Xmltools::xmlToArray($childXml, $path.".".$currentChildName, $options);
+            $childArray = self::xmlToArray($childXml, $path.".".$currentChildName, $options);
             list($childTagName, $childProperties) = each($childArray);
 
             //replace characters in tag name
