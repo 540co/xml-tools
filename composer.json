@@ -8,7 +8,6 @@
         }
     ],
     "require": {
-        "goetas/xsd2php": "2.*@dev",
         "goetas/xsd-reader": "2.*@dev"
     },
     "autoload": {
