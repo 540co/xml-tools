@@ -133,8 +133,11 @@ class Xmltools {
 
       if ($elemType instanceof ComplexTypeSimpleContent) {
         $elemTypeName = self::getTypeName($elemType);
-        $tables[$parentName]['columns'][] = [
-          'name' => $elemName . '/#value',
+        $prefix = trim(str_replace($topParentName, '', $parentName), '/');
+        if ($prefix) $prefix .= '/';
+
+        $tables[$topParentName]['columns'][] = [
+          'name' =>  $prefix . $elemName . '/#value',
           'annotation' => $element->getDoc(),
           'schemaType' => $elemTypeName,
           'sourceNodeType' => 'parent'
