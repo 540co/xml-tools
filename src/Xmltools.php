@@ -35,7 +35,6 @@ class Xmltools {
       self::visitRootElement($tables, $rootElement);
     }
     return $tables;
-    // outputTables($tables, dirname(__FILE__) . '/tables_csvs/');
   }
   private function visitRootElement(&$tables, $rootElement) {
     $rootType = $rootElement->getType();
