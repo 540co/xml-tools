@@ -350,9 +350,49 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
     }
 
     public function testComplexTypeSimpleContentExtension() {
-      $this->markTestIncomplete(
-         'This test has not been implemented yet.'
-       );
+      $filename = dirname(__FILE__) . '/data/complex-simple-content-extension.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      $this->assertArrayHasKey('//article', $xsdDetails);
+      $this->assertEquals($xsdDetails['//article']['name'], '//article');
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'title');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'language/#value');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'Anonymous extends LanguageType');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'parent');
+    }
+
+    public function testComplexTypeSimpleContentNested() {
+      $filename = dirname(__FILE__) . '/data/complex-simple-content-nested.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      $this->assertArrayHasKey('//article', $xsdDetails);
+      $this->assertEquals($xsdDetails['//article']['name'], '//article');
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'title');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/text');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/language/#value');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'Anonymous extends LanguageType');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'parent');
     }
 
     public function testComplexTypeSimpleContentRestriction() {
