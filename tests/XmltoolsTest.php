@@ -360,4 +360,29 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
          'This test has not been implemented yet.'
        );
     }
+
+    public function testComplexTypeSimpleContentAttributes() {
+      $filename = dirname(__FILE__) . '/data/simple-content-attributes.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      $this->assertArrayHasKey('//article', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'title');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index = 1;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/#value');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'ArticleTextType extends string');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'parent');
+
+      $index = 2;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/@language');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'attribute');
+    }
 }

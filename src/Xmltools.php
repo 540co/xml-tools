@@ -131,7 +131,18 @@ class Xmltools {
     foreach ($nonArrayItems as $childElem) {
       $elemName = $childElem->getName();
       $elemType = $childElem->getType();
-      if ($elemType instanceof ComplexType) {
+
+      if ($elemType instanceof ComplexTypeSimpleContent) {
+        $elemTypeName = self::getTypeName($elemType);
+        $tables[$parentName]['columns'][] = [
+          'name' => $elemName . '/#value',
+          'annotation' => $element->getDoc(),
+          'schemaType' => $elemTypeName,
+          'sourceNodeType' => 'parent'
+        ];
+      }
+
+      if ($elemType instanceof ComplexType || $elemType instanceof ComplexTypeSimpleContent) {
         self::traverseType($tables, $elemType, $topParentName, $parentName . '/' . $elemName);
       }
     }
@@ -218,7 +229,7 @@ class Xmltools {
       $max = $max == -1 ? 'unbounded' : $max;
       $arrayStr = "(Array of $max)";
     }
-    if (!$isArray && !($elemType instanceof ComplexType)) {
+    if (!$isArray && !($elemType instanceof BaseComplexType)) {
       $elemTypeName = self::getTypeName($elemType);
       $tables[$topParentName]['columns'][] = [
         'name' => $name,
