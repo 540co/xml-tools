@@ -373,16 +373,48 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'string');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
 
-      $index = 1;
+      $index++;
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/#value');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'ArticleTextType extends string');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'parent');
 
-      $index = 2;
+      $index++;
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/@language');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'string');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'attribute');
+    }
+
+    public function testComplexTypeSimpleContentArray() {
+      $filename = dirname(__FILE__) . '/data/complex-simple-content-array.xsd';
+      $xsdDetails = Xmltools::getXsdDetails($filename);
+
+      $this->assertArrayHasKey('//article', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'title');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//article']['relationships'][$index]['element'], 'body');
+      $this->assertEquals($xsdDetails['//article']['relationships'][$index]['type'], 'hasMany');
+      $this->assertEquals($xsdDetails['//article']['relationships'][$index]['table'], '//article/body');
+
+      $this->assertArrayHasKey('//article/body', $xsdDetails);
+
+      $index = 0;
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['name'], '#value');
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['schemaType'], 'ArticleTextType extends string');
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['sourceNodeType'], 'parent');
+
+      $index++;
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['name'], '@language');
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['annotation'], '');
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['schemaType'], 'string');
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['sourceNodeType'], 'attribute');
     }
 }

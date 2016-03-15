@@ -180,7 +180,7 @@ class Xmltools {
       if ($elemType instanceof ComplexTypeSimpleContent || $elemType instanceof SimpleType) {
         $tables[$parentName . '/' . $elemName]['columns'][] = [
           'name' => '#value',
-          // 'annotation' => $element->getDoc(),
+          'annotation' => $element->getDoc(),
           'schemaType' => $elemTypeName,
           'sourceNodeType' => 'parent'
         ];
