@@ -363,10 +363,10 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
 
       $index++;
-      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'language/#value');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'language');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'Anonymous extends LanguageType');
-      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'parent');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
     }
 
     public function testComplexTypeSimpleContentNested() {
@@ -389,10 +389,10 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
 
       $index++;
-      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/language/#value');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/language');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'Anonymous extends LanguageType');
-      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'parent');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
     }
 
     public function testComplexTypeSimpleContentRestriction() {
@@ -414,10 +414,10 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
 
       $index++;
-      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/#value');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['annotation'], '');
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['schemaType'], 'ArticleTextType extends string');
-      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'parent');
+      $this->assertEquals($xsdDetails['//article']['columns'][$index]['sourceNodeType'], 'tag');
 
       $index++;
       $this->assertEquals($xsdDetails['//article']['columns'][$index]['name'], 'body/@language');

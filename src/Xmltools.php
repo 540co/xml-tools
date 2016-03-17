@@ -137,10 +137,10 @@ class Xmltools {
         if ($prefix) $prefix .= '/';
 
         $tables[$topParentName]['columns'][] = [
-          'name' =>  $prefix . $elemName . '/#value',
+          'name' =>  $prefix . $elemName,
           'annotation' => $element->getDoc(),
           'schemaType' => $elemTypeName,
-          'sourceNodeType' => 'parent'
+          'sourceNodeType' => 'tag'
         ];
       }
 
