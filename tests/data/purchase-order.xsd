@@ -2,18 +2,34 @@
            xmlns:tns="http://tempuri.org/PurchaseOrderSchema.xsd"
            targetNamespace="http://tempuri.org/PurchaseOrderSchema.xsd"
            elementFormDefault="qualified">
- <xsd:element name="PurchaseOrder" type="tns:PurchaseOrderType"/>
+ <xsd:element name="PurchaseOrder" type="tns:PurchaseOrderType">
+   <xsd:annotation>
+     <xsd:documentation>Represents a Purchase Order</xsd:documentation>
+   </xsd:annotation>
+</xsd:element>
  <xsd:complexType name="PurchaseOrderType">
   <xsd:sequence>
-   <xsd:element name="ShipTo" type="tns:USAddress" maxOccurs="2"/>
-   <xsd:element name="BillTo" type="tns:USAddress"/>
+   <xsd:element name="ShipTo" type="tns:USAddress" maxOccurs="2">
+     <xsd:annotation>
+       <xsd:documentation>The customers shipping address</xsd:documentation>
+     </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="BillTo" type="tns:USAddress">
+     <xsd:annotation>
+       <xsd:documentation>The customers billing address</xsd:documentation>
+     </xsd:annotation>
+   </xsd:element>
   </xsd:sequence>
   <xsd:attribute name="OrderDate" type="xsd:date"/>
  </xsd:complexType>
 
  <xsd:complexType name="USAddress">
   <xsd:sequence>
-   <xsd:element name="name"   type="xsd:string"/>
+   <xsd:element name="name"   type="xsd:string">
+     <xsd:annotation>
+       <xsd:documentation>The name that package/correspondence should be addressed to</xsd:documentation>
+     </xsd:annotation>
+   </xsd:element>
    <xsd:element name="street" type="xsd:string"/>
    <xsd:element name="city"   type="xsd:string"/>
    <xsd:element name="state"  type="xsd:string"/>

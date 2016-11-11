@@ -40,6 +40,7 @@ class Xmltools {
     $rootType = $rootElement->getType();
     $tables["//".$rootElement->getName()] = [
       'name' => "//".$rootElement->getName(),
+      'annotation' => $rootElement->getDoc(),
       'columns' => [],
       'relationships' => [],
       'schemaType' => ''
@@ -174,6 +175,7 @@ class Xmltools {
       ];
       $tables[$parentName . '/' . $elemName] = [
         'name' => $parentName . '/' . $elemName,
+        'annotation' => $element->getDoc(),
         'columns' => [],
         'relationships' => [],
         'schemaType' => $elemTypeName
@@ -184,7 +186,7 @@ class Xmltools {
           'name' => '#value',
           'annotation' => $element->getDoc(),
           'schemaType' => $elemTypeName,
-          'sourceNodeType' => 'parent'
+          'sourceNodeType' => 'tag'
         ];
       }
 
