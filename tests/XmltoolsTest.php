@@ -50,7 +50,7 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
 
         $index++;
         $this->assertEquals($xsdDetails['//PurchaseOrder']['columns'][$index]['name'], 'BillTo/name');
-        $this->assertEquals($xsdDetails['//PurchaseOrder']['columns'][$index]['annotation'], '');
+        $this->assertEquals('The name that package/correspondence should be addressed to', $xsdDetails['//PurchaseOrder']['columns'][$index]['annotation']);
         $this->assertEquals($xsdDetails['//PurchaseOrder']['columns'][$index]['schemaType'], 'string');
         $this->assertEquals($xsdDetails['//PurchaseOrder']['columns'][$index]['sourceNodeType'], 'tag');
 
@@ -96,6 +96,7 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
         //Verify ShipTo element was processed
         $this->assertArrayHasKey('//PurchaseOrder/ShipTo', $xsdDetails);
         $this->assertEquals($xsdDetails['//PurchaseOrder/ShipTo']['name'], '//PurchaseOrder/ShipTo');
+        $this->assertEquals('The customers shipping address', $xsdDetails['//PurchaseOrder/ShipTo']['annotation']);
 
         //Verify that it added child elements/attributes of PurchaseOrder/ShipTo
         $this->assertArrayHasKey('columns', $xsdDetails['//PurchaseOrder/ShipTo']);
@@ -103,7 +104,7 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
 
         $index = 0;
         $this->assertEquals($xsdDetails['//PurchaseOrder/ShipTo']['columns'][$index]['name'], 'name');
-        $this->assertEquals($xsdDetails['//PurchaseOrder/ShipTo']['columns'][$index]['annotation'], '');
+        $this->assertEquals('The name that package/correspondence should be addressed to', $xsdDetails['//PurchaseOrder/ShipTo']['columns'][$index]['annotation']);
         $this->assertEquals($xsdDetails['//PurchaseOrder/ShipTo']['columns'][$index]['schemaType'], 'string');
         $this->assertEquals($xsdDetails['//PurchaseOrder/ShipTo']['columns'][$index]['sourceNodeType'], 'tag');
 
@@ -449,7 +450,7 @@ class XmltoolsTest extends PHPUnit_Framework_TestCase
       $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['name'], '#value');
       $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['annotation'], '');
       $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['schemaType'], 'ArticleTextType extends string');
-      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['sourceNodeType'], 'parent');
+      $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['sourceNodeType'], 'tag');
 
       $index++;
       $this->assertEquals($xsdDetails['//article/body']['columns'][$index]['name'], '@language');
