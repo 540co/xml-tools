@@ -184,7 +184,7 @@ class Xmltools {
           'name' => '#value',
           'annotation' => $element->getDoc(),
           'schemaType' => $elemTypeName,
-          'sourceNodeType' => 'parent'
+          'sourceNodeType' => 'tag'
         ];
       }
 
